@@ -19,26 +19,33 @@ def run_tests():
     def target(a, b):
         return a+b
 
+    print('pre, input', (1,2))
     x = target(1,2)
     print('pre, expect 3, got', x)
+    print('-')
 
     try:
+        print('pre, input', (-11,2))
         x = target(-11,2)
     except kontrakto.Contract_Error as e:
         print('pre, expect exception:', e)
+        print('-')
 
     @post(lambda v: v>0, 'sum must be positive')
     def target2(a, b):
         return a+b
 
+    print('post, input', (1,2))
     x = target2(1, 2)
     print('post, expect 3, got', x)
+    print('-')
 
     try:
+        print('post, input', (-11,2))
         x = target(-11,2)
     except kontrakto.Contract_Error as e:
         print('post, expect exception:', e)
-
+        print('-')
 
     @post_arg(lambda L: len(L) % 2 == 0, 'list len after call must be even')
     def target3(L):
@@ -46,23 +53,26 @@ def run_tests():
             L.append(0)
 
     L = [ 1,2,3,4 ]
-    print('post_arg, target3 test 1: L: {}'.format(L))
+    print('post_arg, input L: {}'.format(L))
     target3(L)
-    print('len L', len(L))
-    print('')
+    print('post_arg, expect even len, L {} len {}'.format(L,len(L)))
+    print('-')
+
     L = [ 1,2,3,4,5 ]
-    print('post_arg, target3 test 2: L: {}'.format(L))
+    print('post_arg, input L: {}'.format(L))
     target3(L)
-    print('len L', len(L))
-    print('')
+    print('post_arg, expect even len, L {} len {}'.format(L,len(L)))
+    print('-')
+
     try:
         L = [ 1 ]
-        print('post_arg, target3 test 3: L: {}'.format(L))
+        print('post_arg, input L: {}'.format(L))
         target3(L)
-        print('len L', len(L))
+        print('post_arg, expect even len, L {} len {}'.format(L,len(L)))
         print('')
     except kontrakto.Contract_Error as e:
         print('post_arg, expect exception:', e)
+        print('-')
 
     # test multiple stacked decorators on one target function.
     @pre(lambda a, _: a > 0, 'a must be positive')
@@ -70,11 +80,17 @@ def run_tests():
     def target4(a, b):
         return a+b
 
-    print('multi, target4(1,2)  ', target(1,2))
+    print('multi, input', (1,2))
+    x = target(1,2)
+    print('multi, expect 3, got', x)
+    print('-')
+
     try:
-        print('multi, target4(-10,2)', target(-10, 2))
+        print('multi, input', (-10,2))
+        x = target(-10,2)
     except kontrakto.Contract_Error as e:
         print('multi, expect exception:', e)
+        print('-')
 
 # - - - 
 
