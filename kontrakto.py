@@ -2,21 +2,21 @@
 
 # This module defines 3 decorators: @pre, @post, and @post_arg.
 # For example uses of these decorators, see the self_test function 
-# in this module.
+# in this module and 'external_test.py' in this repo.
 #
-# @pre(fn, msg) runs before the decorated function, and 
+# @pre(fn, msg) runs fn before the decorated function, and 
 # raises an exception if fn fails (returns False) when run 
 # on the decorated function's arguments.
 # 
-# @post(fn, msg) runs after the decorated function, and 
+# @post(fn, msg) runs fn after the decorated function, and 
 # raises an exception if fn fails (returns False) when run 
 # on the decorated function's return values.
 #
-# @post_arg(fn, msg) runs after the decorated function, and 
+# @post_arg(fn, msg) runs fn after the decorated function, and 
 # raises an exception if fn fails (returns False) when run 
-# on the decorated function's arguments.  @post_arg is used 
-# when you want to test a postcondition on a function whose 
-# main effect is to modify its arguments.
+# on the decorated function's arguments.  Use @post_arg
+# instead of @post if you have a function that modifies its 
+# arguments.
 
 # standard modules
 
@@ -30,8 +30,7 @@ __copyright__ = "Copyright (C) 2017 Lou Glassy"
 __license__ = "Apache 2.0"
 __version__ = "0.1"
 
-# user should set CONTRACTS_ENABLED to True in client code
-# when using this module.
+# set CONTRACTS_ENABLED to True in client code to use this module.
 
 CONTRACTS_ENABLED = False
 
@@ -154,6 +153,7 @@ def self_test(test):
 
         print('target(1,2)  ', target(1,2))
         print('target(-10,2)', target(-10, 2))
+
 # - - - 
 
 if __name__ == '__main__':

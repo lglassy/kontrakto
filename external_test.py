@@ -5,11 +5,12 @@ import kontrakto
 
 from kontrakto import pre, post, post_arg 
 
-# note - to enable contracts you must set kontrakto.CONTRACTS_ENABLED
-# to True, and you must do this before using @pre, @post, @post_arg
-# decorators.  if you do set CONTRACTS_ENABLED to True, then these 
-# decorators act as no-ops.  There is a likely still a small runtime 
-# cost for such no-op decorators.
+# note - the pre, post, post_arg decorators are enabled by setting
+# kontrakto.CONTRACTS_ENABLED to True.  By default CONTRACTS_ENABLED
+# is False (which makes the decorators no-ops).
+#
+# Setting CONTRACTS_ENABLED to True enables these decorators
+# for subsequent function definitions in the current module.
 
 kontrakto.CONTRACTS_ENABLED = True 
 
