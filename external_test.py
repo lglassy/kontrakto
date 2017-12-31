@@ -100,12 +100,13 @@ class Counter(object):
     def __init__(self, val):
         self.val = val 
 
-    @pre(lambda self: self.val > 0, 'counter val must before inc must be greater than zero')
+    @pre(lambda self: self.val > 0, 
+         'counter val must before inc must be greater than zero')
     def inc(self):
         self.val += 1
 
     @pre(lambda self, ival: (self.val + ival) % 2 == 0,
-          'new val after incby must be even')
+         'new val after incby must be even')
     def incby(self, ival):
         self.val += ival
     
