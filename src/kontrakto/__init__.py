@@ -1,8 +1,11 @@
 """simple implementation of 'design-by-contract' contracts"""
 
 # This module defines 3 decorators: @pre, @post, and @post_arg.
-# For example uses of these decorators, see the self_test function 
-# in this module and 'external_test.py' in this repo.
+# For example uses of these decorators, see the code in 
+# kontrakto.self_test module.  You can run the self test with 
+# the command:
+#
+#     python3 -m kontrakto.self_test 
 #
 # @pre(fn, msg) runs fn before the decorated function, and 
 # raises an exception if fn fails (returns False) when run 
@@ -27,8 +30,8 @@ import sys
 # module-level constants 
 
 __copyright__ = "Copyright (C) 2017 Lou Glassy"
-__license__ = "Apache 2.0"
-__version__ = "0.1"
+__license__   = "Apache 2.0"
+__version__   = "0.1"
 
 # set CONTRACTS_ENABLED to True in client code to use this module.
 
@@ -97,80 +100,5 @@ def post_arg(post_fn, failure_message):
         def passthrough(wrapped_fn):
             return wrapped_fn
         return passthrough
-
-# - - - 
-
-def self_test(test):
-
-    global CONTRACTS_ENABLED 
-    if 'CONTRACTS_ENABLED' in os.environ:
-        CONTRACTS_ENABLED = True 
-
-    if test == 'pre':
-        @pre(lambda a, b: a > 0 and b > 0, 'a and b must be positive')
-        def target(a, b):
-            return a+b
-
-        print('target(1,2)  ', target(1,2))
-        print('target(-10,2)', target(-10, 2))
-
-    if test == 'post':
-        @post(lambda v: v>0, 'sum must be positive')
-        def target(a, b):
-            return a+b
-
-        print('target(1,2)  ', target(1,2))
-        print('target(-10,2)', target(-10, 2))
-
-    if test == 'post_arg':
-        @post_arg(lambda L: len(L) % 2 == 0, 'list len after call must be even')
-        def target(L):
-            if len(L) > 3 and len(L) % 2 == 1:
-                L.append(0)
-
-        L = [ 1,2,3,4 ]
-        print('test 1: L: {}'.format(L))
-        target(L)
-        print('len L', len(L))
-        print('')
-        L = [ 1,2,3,4,5 ]
-        print('test 2: L: {}'.format(L))
-        target(L)
-        print('len L', len(L))
-        print('')
-        L = [ 1 ]
-        print('test 3: L: {}'.format(L))
-        target(L)
-        print('len L', len(L))
-        print('')
-
-    if test == 'multi':
-        # test multiple stacked decorators on one target function.
-        @pre(lambda a, _: a > 0, 'a must be positive')
-        @pre(lambda _, b: b > 0, 'b must be positive')
-        def target(a, b):
-            return a+b
-
-        print('target(1,2)  ', target(1,2))
-        print('target(-10,2)', target(-10, 2))
-
-# - - - 
-
-if __name__ == '__main__':
-
-    if len(sys.argv) == 1:
-        m = """
-usage: {} TEST, where TEST is one of:
-pre		- testing @pre
-post		- testing @post
-post_arg 	- testing @post_arg
-multi		- testing multiple 'stacked' decorators
-""".format(sys.argv[0])
-        print(m)
-        sys.exit(1)
-
-    # run one of the simple self tests.
-
-    self_test(sys.argv[1])
 
 # end of file

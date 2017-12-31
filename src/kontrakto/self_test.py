@@ -1,5 +1,5 @@
-# this file contains simple examples of how you would use the kontrakto
-# module with normal client code.
+# this module contains simple examples of how you would use 
+# the kontrakto module with normal client code.
 
 import kontrakto 
 

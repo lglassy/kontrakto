@@ -5,9 +5,10 @@ import setuptools
 setuptools.setup(
         name        = 'kontrakto', 
         version     = '0.1', 
-        description = 'simple design-by-contract module', 
+        description = 'decorators for design-by-contract', 
         url         = 'https://github.com/lglassy/kontrakto',
-        py_modules  = ['kontrakto'],
-)
+        packages    = setuptools.find_packages('src'),
+        package_dir = { 'kontrakto': 'src/kontrakto' }, 
+	)
 
 # end of file
